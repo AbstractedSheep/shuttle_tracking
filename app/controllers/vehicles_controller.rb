@@ -93,6 +93,18 @@ class VehiclesController < ApplicationController
     end
   end
 
+  def pull_update
+    require "net/http"
+    require "uri"
+    require "json"
+
+    url = URI.parse("http://shuttles.rpi.edu/vehicles/current.js")
+    result = Net::HTTP.get(url)
+    
+    @vehicles = result.body.from_json
+
+  end
+
   # DELETE /vehicles/1
   # DELETE /vehicles/1.xml
   def destroy

@@ -27,3 +27,6 @@ gem 'jammit'
 
 # Use RedCloth to format text
 gem 'RedCloth'
+
+# Use Whenever to pull route, stop, and shuttle information
+gem 'whenever', :require => false
