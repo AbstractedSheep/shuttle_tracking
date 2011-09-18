@@ -101,7 +101,12 @@ class VehiclesController < ApplicationController
     url = URI.parse("http://shuttles.rpi.edu/vehicles/current.js")
     result = Net::HTTP.get(url)
     
-    @vehicles = result.body.from_json
+    @jsonVehicles = result.body.from_json
+
+    for newVehicle in @jsonVehicles
+      foundVehicle = Vehicle.find(newVehicle.identifier)
+      #TODO: do something
+    end
 
   end
 
