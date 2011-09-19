@@ -5,3 +5,5 @@ tmp/**/*
 public/.htaccess
 tmp/restart.txt
 config/database.yml
+
+*.DS_Store
