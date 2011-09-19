@@ -45,6 +45,7 @@ GEM
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
     cancan (1.6.5)
+    chronic (0.6.4)
     chronic_duration (0.9.6)
       numerizer (~> 0.1.1)
     devise (1.4.2)
@@ -102,6 +103,9 @@ GEM
     tzinfo (0.3.29)
     warden (1.0.5)
       rack (>= 1.0)
+    whenever (0.7.0)
+      activesupport (>= 2.3.4)
+      chronic (~> 0.6.3)
     yui-compressor (0.9.6)
       POpen4 (>= 0.1.4)
 
@@ -120,3 +124,4 @@ DEPENDENCIES
   rails (= 3.0.10)
   rmagick (= 2.12.2)
   sqlite3-ruby
+  whenever
