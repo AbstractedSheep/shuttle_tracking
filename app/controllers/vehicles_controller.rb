@@ -93,29 +93,6 @@ class VehiclesController < ApplicationController
     end
   end
 
-  def pull_update
-    require "net/http"
-    require "uri"
-    require "json"
-
-    url = URI.parse("http://shuttles.rpi.edu/vehicles/current.js")
-    result = Net::HTTP.get(url)
-    
-    @jsonVehicles = result.body.from_json
-
-    for newVehicle in @jsonVehicles
-      foundVehicle = Vehicle.find_by_id(newVehicle.identifier)
-
-      if foundVehicle == nil
-        newVehicle.save
-      else
-        foundVehicle.latest_position = newVehicle.latest_position
-        foundVehicle.save
-      end
-    end
-
-  end
-
   # DELETE /vehicles/1
   # DELETE /vehicles/1.xml
   def destroy

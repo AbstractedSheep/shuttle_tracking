@@ -4,7 +4,7 @@ namespace :tracking do
     interval = BACKEND_UPDATE
     while true
       start_time = Time.now
-      Rake::Task['sample:update'].execute
+      Rake::Task['update_shuttles:update'].execute
       end_time = Time.now
 
       #How long did the update take?
