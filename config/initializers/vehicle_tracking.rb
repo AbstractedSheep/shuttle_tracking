@@ -8,7 +8,7 @@ ACTIVE_TIMEOUT = 300 #How long to wait before a shuttles goes offline (seconds)
 BACKEND_UPDATE = 15 #How long to sleep between backend updates (seconds)
 
 REMOTE_ACCESS = {
-  :enabled => false,
+  :enabled => true,
   :username => "user",
   :password => "pass"
 }
