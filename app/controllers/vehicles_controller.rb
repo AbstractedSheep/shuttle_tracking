@@ -104,8 +104,14 @@ class VehiclesController < ApplicationController
     @jsonVehicles = result.body.from_json
 
     for newVehicle in @jsonVehicles
-      foundVehicle = Vehicle.find(newVehicle.identifier)
-      #TODO: do something
+      foundVehicle = Vehicle.find_by_id(newVehicle.identifier)
+
+      if foundVehicle == nil
+        newVehicle.save
+      else
+        foundVehicle.latest_position = newVehicle.latest_position
+        foundVehicle.save
+      end
     end
 
   end
