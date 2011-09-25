@@ -2,7 +2,7 @@
 # four configuration values can also be set straight in your models.
 Devise.setup do |config|
   # ==> CAS configuration
-  config.cas_base_url = "https://your.cas.server/cas"
+  config.cas_base_url = "https://cas-auth.rpi.edu/cas"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
