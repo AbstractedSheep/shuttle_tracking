@@ -40,8 +40,8 @@ namespace :update_shuttles do
         else
          puts "No Change #{vehicle.name}."
         end
-      else
-        newVehicle.save
+      #else
+        #newVehicle.save
         #puts "No vehicle with ID #{$1}."
       end
     end
