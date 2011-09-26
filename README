@@ -8,3 +8,7 @@ Installation:
 bundle install
 Fill-in database.yml
 rake db:migrate
+
+Usage (separate consoles suggested):
+rails server
+rake update_shuttles:update
