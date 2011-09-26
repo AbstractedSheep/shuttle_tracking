@@ -2,32 +2,34 @@ require "net/http"
 require 'uri'
 require "json"
 
-def pull_update
 namespace :update_shuttles do
   desc "Update vehicle locations via JSON from external server"
   task :update => :environment do
     url = URI.parse("http://shuttles.rpi.edu/vehicles/current.js")
     result = Net::HTTP.get(url)
     
-    @jsonVehicles = result.body.from_json
+    jsonVehicles = JSON.parse(result)
 
-    for newVehicle in @jsonVehicles
-      vehicle = Vehicle.where(:identifier => newVehicle.identifier).first
+    for vehicleJson in jsonVehicles
+      newVehicle = vehicleJson['vehicle']
+      vehicleUpdate = newVehicle['latest_position']
+      vehicle = Vehicle.where(:name => newVehicle['name']).first
       if !vehicle.nil?
         # Time to see if the update is actually from the future.
         # And by that I mean, check if this update is represents
         # new data (i.e has a timestamp > the old data)
         last_update = vehicle.updates.latest.first
+        timestamp = Time.zone.parse(vehicleUpdate['timestamp'])
         if last_update.nil? || last_update.timestamp < timestamp
           # Actually build an update
           update = vehicle.updates.new(
-            :latitude => newVehicle.latitude,
-            :longitude => newVehicle.longitude,
-            :heading => newVehicle.heading,
-            :speed => newVehicle.speed,
+            :latitude => vehicleUpdate['latitude'],
+            :longitude => vehicleUpdate['longitude'],
+            :heading => vehicleUpdate['heading'],
+            :speed => vehicleUpdate['speed'],
             #:lock => $6.to_i,
             #:status_code => $7.to_s,
-            :timestamp => newVehicle.timestamp
+            :timestamp => timestamp
           )
           if update.save
             puts "Updated #{vehicle.name}"
@@ -40,9 +42,9 @@ namespace :update_shuttles do
         else
          puts "No Change #{vehicle.name}."
         end
-      #else
+      else
         #newVehicle.save
-        #puts "No vehicle with ID #{$1}."
+        puts "No vehicle with name #{newVehicle['name']}."
       end
     end
   end
