@@ -18,8 +18,8 @@ Usage:
 Starting the server:
 rails server
 
-Starting the shuttle update pull service:
-rake update_shuttles:update
+Starting the service to retrieve shuttle updates:
+rake tracking:auto_update
 
 Setting a user to be administrator:
 * Go to the project directory in a console.
