@@ -18,7 +18,7 @@ Usage:
 Starting the server:
 rails server
 
-Starting the service to retrieve shuttle updates:
+Starting the service to retrieve shuttle updates (uses localhost on master branch or shuttles.rpi.edu on separate_server branch):
 rake tracking:auto_update
 
 Setting a user to be administrator:
