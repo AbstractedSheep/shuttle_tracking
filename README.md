@@ -37,10 +37,12 @@ Note: Some people have trouble with Attachable.  Try reinstalling as a workaroun
 * Go to the project directory in a terminal.
 * Run `rails c` to start the rails console.
 * In the rails console:
-	user = User.find_by_username("<your username>")
-	user.is_admin = true
-	user.save
-	exit
+```ruby
+user = User.find_by_username("<your username>")
+user.is_admin = true
+user.save
+exit
+```
 
 ## Usage:
 
