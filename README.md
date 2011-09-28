@@ -7,12 +7,12 @@ The latest version of RPI's shuttle tracking web application.
 * Plugins Used: Attachable, AuthLogic
 
 Installation:
-`bundle install`
-Fill-in `database.yml` (an example, `database.yml.sample`, is provided)
-`rake db:migrate`
+
+* Fill in `database.yml` (an example, `database.yml.sample`, is provided)
+* Run `bundle install` and `rake db:migrate`
 
 Note: Some people have trouble with Attachable.  Try reinstalling as a workaround:
-(with Rails 3)
+
 `rails plugin install https://github.com/bamnet/attachable.git --force`
 
 ## Configuration
