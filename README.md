@@ -1,5 +1,5 @@
 The latest version of RPI's shuttle tracking web application.
-***
+
 ## Installation
 
 * Prerequisites: MySQL, Rails 3, ImageMagick
@@ -14,7 +14,7 @@ Fill-in `database.yml` (an example, `database.yml.sample`, is provided)
 Note: Some people have trouble with Attachable.  Try reinstalling as a workaround:
 (with Rails 3)
 `rails plugin install https://github.com/bamnet/attachable.git --force`
-***
+
 ## Configuration
 
 (note: all URLs are rails defaults)
