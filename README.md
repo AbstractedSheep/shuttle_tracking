@@ -2,7 +2,7 @@ The latest version of RPI's shuttle tracking web application.
 
 ## Installation
 
-* Prerequisites: MySQL, Rails 3, ImageMagick
+* Prerequisites: MySQL, Rails 3, ImageMagick, (on Debian/Ubuntu:) libjson-ruby
 * Prerequisite Gems: MySQL, god, chronic_duration, RMagick
 * Plugins Used: Attachable, AuthLogic
 
@@ -41,7 +41,7 @@ user.save
 exit
 ```
 
-## Usage:
+## Usage
 
 * Starting the server: `rails server`
 * Starting the service to retrieve shuttle updates: `rake tracking:auto_update`
