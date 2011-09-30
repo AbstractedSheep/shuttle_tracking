@@ -4,7 +4,7 @@ require "json"
 
 namespace :update_shuttles do
   desc "Update vehicle locations via JSON from external server"
-  task :update => :environment do
+  task :update_json => :environment do
     url = URI.parse("http://shuttles.rpi.edu/vehicles/current.js")
     result = Net::HTTP.get(url)
     
@@ -27,14 +27,13 @@ namespace :update_shuttles do
             :longitude => vehicleUpdate['longitude'],
             :heading => vehicleUpdate['heading'],
             :speed => vehicleUpdate['speed'],
-            #:lock => $6.to_i,
-            #:status_code => $7.to_s,
             :timestamp => timestamp
+            # Lock and status code are currently not provided via json
           )
           if update.save
             puts "Updated #{vehicle.name}"
           else
-            #Debug why the update isn't valid
+            # Debug why the update isn't valid
             update.errors.full_messages.each do |msg|
               puts msg
             end
@@ -43,10 +42,11 @@ namespace :update_shuttles do
          puts "No Change #{vehicle.name}."
         end
       else
+        # Consider just adding a vehicle, if it is not already present
         #newVehicle.save
         puts "No vehicle with name #{newVehicle['name']}."
       end
     end
+    puts "Finished at @ #{DateTime.current()}"
   end
-  puts "Finished at @ #{DateTime.current()}"
 end
