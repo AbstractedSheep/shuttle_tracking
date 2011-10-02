@@ -1,6 +1,5 @@
 require "net/http"
 require 'uri'
-require "json"
 
 namespace :update_shuttles do
   desc "Update vehicle locations via JSON from external server"
@@ -32,6 +31,12 @@ namespace :update_shuttles do
           )
           if update.save
             puts "Updated #{vehicle.name}"
+
+            routes = Route.all
+
+            for route in routes
+              puts "Distance: #{route.distanceTo(update.latitude, update.longitude)}"
+            end
           else
             # Debug why the update isn't valid
             update.errors.full_messages.each do |msg|
