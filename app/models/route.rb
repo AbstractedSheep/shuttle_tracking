@@ -2,7 +2,7 @@ class Route < ActiveRecord::Base
 
   # Relations
   has_and_belongs_to_many :stops
-  has_and_belongs_to_many :vehicles
+  has_many :vehicles
   has_many :coords, :dependent => :destroy
   
   # Validations

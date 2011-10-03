@@ -3,7 +3,6 @@ class Vehicle < ActiveRecord::Base
   # Relations
   has_many :updates, :dependent => :destroy
   has_one :latest_position, :class_name => 'Update'
-  has_one :route
   belongs_to :route
   belongs_to :icon
 

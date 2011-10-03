@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110308060631) do
+ActiveRecord::Schema.define(:version => 20111003171553) do
 
   create_table "coords", :force => true do |t|
     t.decimal  "latitude",   :precision => 15, :scale => 10, :default => 0.0
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(:version => 20110308060631) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "icon_id"
+    t.integer  "route_id"
   end
 
 end
