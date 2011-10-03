@@ -1,7 +1,7 @@
 require "net/http"
 require 'uri'
 
-namespace :update_shuttles do
+namespace :update_vehicles do
   desc "Update vehicle locations via JSON from external server"
   task :update_json => :environment do
     url = URI.parse("http://shuttles.rpi.edu/vehicles/current.js")
