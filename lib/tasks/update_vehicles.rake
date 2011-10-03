@@ -1,8 +1,7 @@
 require "net/http"
 require 'uri'
-require "json"
 
-namespace :update_shuttles do
+namespace :update_vehicles do
   desc "Update vehicle locations via JSON from external server"
   task :update_json => :environment do
     url = URI.parse("http://shuttles.rpi.edu/vehicles/current.js")
@@ -32,6 +31,32 @@ namespace :update_shuttles do
           )
           if update.save
             puts "Updated #{vehicle.name}"
+
+            routes = Route.all
+            closeRoutes = Array.new
+
+            for route in routes
+              distance = route.distanceTo(update.latitude, update.longitude) * 10000
+
+              if distance < 1
+                closeRoutes << route
+              end
+            end
+
+            if closeRoutes.length > 1
+              # do nothing
+            elsif closeRoutes.length == 1
+              vehicle.route = closeRoutes.first
+              closeRoutes.first.vehicles << vehicle
+            else
+              # there aren't any close routes
+              if !vehicle.route.nil?
+                # find and remove vehicle from associated route
+                vehicle.route.vehicles.delete(vehicle)
+              end
+
+              vehicle.route = nil
+            end
           else
             # Debug why the update isn't valid
             update.errors.full_messages.each do |msg|
