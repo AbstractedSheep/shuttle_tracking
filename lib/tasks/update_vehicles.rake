@@ -38,7 +38,7 @@ namespace :update_vehicles do
             for route in routes
               distance = route.distanceTo(update.latitude, update.longitude) * 10000
 
-              if distance < 1
+              if distance < 3
                 closeRoutes << route
               end
             end
@@ -46,8 +46,11 @@ namespace :update_vehicles do
             if closeRoutes.length > 1
               # do nothing
             elsif closeRoutes.length == 1
-              vehicle.route = closeRoutes.first
-              closeRoutes.first.vehicles << vehicle
+              closeRoute = closeRoutes.first
+              if (closeRoute.distanceTo(update.latitude, update.longitude) * 10000 < 1)
+                vehicle.route = closeRoutes.first
+                closeRoutes.first.vehicles << vehicle
+              end
             else
               # there aren't any close routes
               if !vehicle.route.nil?
