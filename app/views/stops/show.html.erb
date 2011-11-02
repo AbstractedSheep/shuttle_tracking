@@ -34,6 +34,8 @@
     <dd><%= @stop.phonetic %></dd>
     <dt>Short Name:</dt>
     <dd><%= @stop.short_name.upcase %></dd>
+    <dt>Preceding Coordinates:</dt>
+    <dd><%= @stop.preceding_coords.all.length %></dd>
 <% end %>
   </dl>
 </div>

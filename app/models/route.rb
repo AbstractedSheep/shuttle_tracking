@@ -4,6 +4,7 @@ class Route < ActiveRecord::Base
   has_and_belongs_to_many :stops
   has_many :vehicles
   has_many :coords, :dependent => :destroy
+  has_many :preceding_coords, :dependent => :delete_all
   
   # Validations
   validates :name, :presence => true
@@ -34,6 +35,13 @@ class Route < ActiveRecord::Base
     end
 
     shortestDistance
+  end
+
+  def update_attributes
+    super(update_attributes)
+    for stop in stops.all
+      stop.calculate_preceding(self)
+    end
   end
 
 end

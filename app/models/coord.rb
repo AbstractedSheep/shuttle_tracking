@@ -2,6 +2,7 @@ class Coord < ActiveRecord::Base
 
   # Relations
   belongs_to :route
+  has_many :preceding_coords, :dependent => :delete_all
 
   default_scope order('position')
 
