@@ -5,6 +5,7 @@ tmp/**/*
 public/.htaccess
 tmp/restart.txt
 config/database.yml
+nbproject
 
 *.DS_Store
 *.swp
