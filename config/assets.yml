@@ -6,15 +6,24 @@ embed_assets: on
 
 javascripts:
   common:
-    - public/javascripts/jquery-1.4.2.js
+    - public/javascripts/jquery-1.6.4.min.js
     - public/javascripts/jquery-ujs/src/rails.js
     - public/javascripts/application.js
   map:
     - public/javascripts/map.js
     - public/javascripts/overlay.js
-
+  mobile:
+    - public/javascripts/jquery.mobile-1.0rc2.min.js
+  test:
+    - public/javascripts/jquery.mobile-1.0rc2pre.min.js
 stylesheets:
   map:
     - public/stylesheets/new.css
+  mobile:
+    - public/stylesheets/jquery.mobile-1.0rc2.min.css
   backend:
     - public/stylesheets/general.css
+  test:
+    - public/stylesheets/jquery.mobile-1.0rc2pre.min.css
+    - public/stylesheets/jquery.mobile.scrollview.css
+    - public/stylesheets/jquery.mobile.splitview.css

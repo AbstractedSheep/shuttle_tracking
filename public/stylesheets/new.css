@@ -18,47 +18,49 @@
   left:50%;
   margin-left:-201px;
   background-image:url(../images/full_map/biglogo.png);
-  z-index:2;
+  z-index:3;
   pointer-events: none;
  }
-body
+/*body
 {
+  
   background-image:url(../images/embed/bg_tile.png);
   margin:0px;
   padding:0px;
   height:auto;
   background-color:#999999;
+}*/
+/*#etablock
+{
+  position:absolute;
+  min-width:300px;
+  height:100%;
+  top:30px;
+  right:30px;
+  bottom:30px;
+  margin:0px;
+  padding:0px;
 }
 #mapblock
 {
+  min-width: 300px;
   position:fixed;
   height:100%;
   left:0px;
   right: 300px;
   margin:0px;
   padding:0px;
-}
-#etablock
-{
-  position:absolute;
-  width:300px;
-  height:100%;
-  top:30px;
-  right:30px;
-  bottom:30px;
-  margin:0px;
-  padding:0px;
-}
+}*/
+
 #map_canvas
 {
   position:absolute;
-  right:30px;
-  left:30px;
-  top:30px;
-  bottom:30px;
+left:0px;
+width: 100%;
+height: 70%;
   border:1px solid black;
 }
-#nav_container
+/*#nav_container
 {
   display:block;
   position:absolute;
@@ -140,27 +142,27 @@ body
   height:30px;
 }
 
-/* the overlayed element */
+ the overlayed element 
 .simple_overlay {
-  /* must be initially hidden */
+   must be initially hidden 
   display:none;
 
-  /* place overlay on top of other elements */
+   place overlay on top of other elements 
   z-index:10000;
 
-  /* styling */
+   styling 
   background-color:#FFF;
 
   width:400px;
   border:1px solid #666;
   padding: 25px;
 	
-  /* CSS3 styling for latest browsers */
+   CSS3 styling for latest browsers 
   -moz-box-shadow:0 0 90px 5px #000;
   -webkit-box-shadow: 0 0 90px #000;	
 }
 
-/* close button positioned on upper right corner */
+ close button positioned on upper right corner 
 .simple_overlay .close {
   background-image:url(../images/close.png);
   position:absolute;
@@ -171,8 +173,8 @@ body
   width:35px;
 }
 
-/* styling for elements inside overlay */
+ styling for elements inside overlay 
 .contentWrap {
   font-family:Arial, Helvetica, sans-serif;
   color:#000;
-}
+}*/
