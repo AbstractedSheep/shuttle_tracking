@@ -2,6 +2,16 @@ body {
   visibility: hidden;
 }
 
+.ui-panel {
+  -moz-box-shadow: 0 0 12px rgba(0,0,0,.6);
+  -webkit-box-shadow: 0 0 12px rgba(0,0,0,.6);
+  box-shadow: 0 0 12px rgba(0,0,0,.6);
+}
+
+div[data-id="main"] {
+  z-index: 9999;
+}
+
 .ui-mobile body {
   visibility: visible;
 }
@@ -20,53 +30,57 @@ body {
   bottom:0;
 }
 
-.ui-border-right {
-  border-right: 1px solid;
-  z-index: 100;
+.ui-crumbs {
+  max-width: 25%;
 }
 
 .splitview .ui-splitview-hidden {
   display:none;
 }
 
-.splitview.min-width-480px body {
-  margin: 0;
-}
+@media (min-width:480px) {
+  .splitview body {
+    margin: 0;
+  }
 
-.splitview.min-width-480px .ui-page{
-  bottom: 0;
-}
+  .splitview .ui-page{
+    bottom: 0;
+  }
 
-.splitview.min-width-480px .ui-header {
-  position:absolute;
-  top:0;
-  bottom:auto; 
-  left:0;
-  right:0;
-}
+  .splitview .ui-header {
+    position:absolute;
+    top:0;
+    bottom:auto; 
+    left:0;
+    right:0;
+    z-index: 1000;
+  }
 
-.splitview.min-width-480px .ui-footer {
-  position:absolute;
-  top:auto;
-  bottom:0;
-  left:0;
-  right:0;
-}
+  .splitview .ui-footer {
+    position:absolute;
+    top:auto;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:1000;
+  }
 
-.splitview.min-width-480px .ui-content {
-  position:absolute;
-  top:40px;   /*TODO: need to dynamically set this and bottom when we use dynamic toolbars later*/
-  bottom:0;
-  left:0;
-  right:0;
-  overflow: auto;
+  .splitview .ui-content {
+    position:absolute;
+    top:40px;
+    bottom:0;
+    left:0;
+    right:0;
+    overflow:auto;
+    z-index:1;
+  }
 }
 
 /************************************************************************************************************
 popover css for portrait orientation, modified from 
 http://www.cagintranet.com/archive/create-an-ipad-like-dropdown-popover/
 ************************************************************************************************************/
-.panel-popover .popover_triangle {left:7px;} /*adjust this if you change the text in the popover button */
+.panel-popover .popover_triangle {left:7px;}
 .panel-popover {
   color: black;
   display:none;
@@ -84,10 +98,10 @@ http://www.cagintranet.com/archive/create-an-ipad-like-dropdown-popover/
   -moz-border-radius: 4px;
   border-radius: 4px;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  -webkit-transition: opacity 0.25s linear;
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  -moz-transition: opacity 0.25s linear;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -webkit-transition: opacity 0.25s linear;
+  -moz-transition: opacity 0.25s linear;
   transition: opacity 0.25s linear; 
   overflow-x:visible;
   height:80%;
@@ -109,3 +123,7 @@ http://www.cagintranet.com/archive/create-an-ipad-like-dropdown-popover/
   height: inherit;
   overflow-y:auto;
 }
+
+/**********************************************************************************************************
+CSS animations for panel resize using new data-width attribute.
+**********************************************************************************************************/
