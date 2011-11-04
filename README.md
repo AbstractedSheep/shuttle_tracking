@@ -11,7 +11,7 @@ Installation:
 * Fill in `config/database.yml` (an example is available: `config/database.yml.sample`)
 * Run `bundle install` and `rake db:migrate`
 
-Note: This project uses git submodules.  Run 'git submodule update --init' to download the submodules.
+Note: This project uses git submodules.  Run `git submodule update --init` to download the submodules.
 
 ## Configuration
 
