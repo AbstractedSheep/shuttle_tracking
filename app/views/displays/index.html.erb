@@ -39,20 +39,36 @@
 <%#*<div id="shuttle_logo"></div>%>
   <div data-role="panel" data-id="menu">
     <div data-role="page" id="eta">
-      <div data-role="header" class="ui-bar"> 
+      <div data-role="header"> 
             <h1>RPI Shuttles</h1>
-            <a href="#" data-role="button" data-icon="refresh" data-iconpos="notext" id="refresh">Refresh</a> 
+            <a href="#" data-role="button" data-icon="refresh" data-iconpos="notext" id="refresh">Refresh</a>
       </div>
       <div data-role="content">
         <div data-role="collapsible-set">
           <div id="favs" data-role="collapsible">
-              <h3>Favs</h3>
+            <h3>Favs</h3>
+            <ul data-role="listview">
+              
+              <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a></li>
+              <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a></li>
+            </ul>
           </div>
             <div id="west" data-role="collapsible">
               <h3>West</h3>
+              <ul data-role="listview">
+                <li><a href="#">Blitman<span class="ui-li-count">2:00pm</span></a></li>
+                <li><a href="#">Union<span class="ui-li-count">3:00pm</span></a></li>
+                <li><a href="#">Polytech<span class="ui-li-count">4:00pm</span></a></li>
+                <li><a href="#">Moe's<span class="ui-li-count">5:00pm</span></a></li>
+              </ul>
             </div>
             <div id="east" data-role="collapsible">
               <h3>East</h3>
+              <ul data-role="listview">
+                
+                <li><a href="#">ECAV<span class="ui-li-count">6:00pm</span></a></li>
+                <li><a href="#">Union<span class="ui-li-count">7:00pm</span></a></li>
+              </ul>
             </div>
         </div>
       </div>
@@ -60,7 +76,7 @@
   </div>
   <div data-role="panel" data-id="main">
     <div data-role="page" id="map">
-      <div data-role="header">Map</div>
+      <div data-role="header"><h1>Map</h1></div>
       <div data-role="content">
         <div id="map_canvas"></div>
       </div>
