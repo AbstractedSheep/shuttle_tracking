@@ -11,9 +11,7 @@ Installation:
 * Fill in `database.yml` (an example, `database.yml.sample`, is provided)
 * Run `bundle install` and `rake db:migrate`
 
-Note: Some people have trouble with Attachable.  Try reinstalling as a workaround:
-
-`rails plugin install https://github.com/bamnet/attachable.git --force`
+Note: This project uses git submodules.  Run `git submodule update --init` to download the submodules.
 
 ## Configuration
 

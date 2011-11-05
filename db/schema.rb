@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111003171553) do
+ActiveRecord::Schema.define(:version => 20111030221230) do
 
   create_table "coords", :force => true do |t|
     t.decimal  "latitude",   :precision => 15, :scale => 10, :default => 0.0
@@ -19,6 +19,12 @@ ActiveRecord::Schema.define(:version => 20111003171553) do
     t.integer  "route_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "etas", :force => true do |t|
+    t.datetime "timestamp"
+    t.integer  "stop_id"
+    t.integer  "vehicle_id"
   end
 
   create_table "icons", :force => true do |t|
@@ -39,6 +45,12 @@ ActiveRecord::Schema.define(:version => 20111003171553) do
     t.datetime "updated_at"
     t.string   "permalink"
     t.boolean  "frontpage"
+  end
+
+  create_table "preceding_coords", :force => true do |t|
+    t.integer "stop_id"
+    t.integer "route_id"
+    t.integer "coord_id"
   end
 
   create_table "routes", :force => true do |t|
