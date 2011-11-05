@@ -37,6 +37,7 @@
   var stop_icon_path = '<%= image_path "blue_dot.png" %>';
 <% end %>
 <%#*<div id="shuttle_logo"></div>%>
+  <% content_for :large do %>
   <div data-role="panel" data-id="menu">
     <div data-role="page" id="eta">
       <div data-role="header"> 
@@ -83,15 +84,9 @@
     </div>
   </div>
   
-  <%#*<div id="map_header">%>
-      <%#*<span id="loading_icon" style="display: none;"><%= image_tag 'full_map/loading.gif' </span>%>
-      <%#*<span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png' </span>%>
-      <%#*<span id="status">Loading...</span>%>
-<%#*</div>%>
-<%#*<div id="left"></div>%>
-<%#*<div id="top"></div>%>
-<%#*<div id="right"></div>%>
-<%#*<div id="bottom"></div>%>
-<%#*<div class="simple_overlay" id="overlay">%>
-  <%#*<div class="contentWrap"></div>%>
-<%#*</div>%>
+  <div id="map_header">
+      <span id="loading_icon" style="display: none;"> <%= image_tag 'full_map/loading.gif'%> </span>
+      <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png'%> </span>
+      <span id="status">Loading...</span>
+</div>
+<% end %>
