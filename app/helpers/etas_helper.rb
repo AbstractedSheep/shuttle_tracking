@@ -1,0 +1,2 @@
+module EtasHelper
+end

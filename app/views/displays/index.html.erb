@@ -37,7 +37,7 @@
   var stop_icon_path = '<%= image_path "blue_dot.png" %>';
 <% end %>
 <%#*<div id="shuttle_logo"></div>%>
-  <% content_for :large do %>
+<% content_for :large do %>
   <div data-role="panel" data-id="menu">
     <div data-role="page" id="eta">
       <div data-role="header"> 
@@ -48,29 +48,24 @@
         <div data-role="collapsible-set">
           <div id="favs" data-role="collapsible">
             <h3>Favs</h3>
-            <ul data-role="listview">
+            <ul data-role="listview" data-split-icon="star" data-split-theme="d">
               
-              <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a></li>
-              <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a></li>
+              <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a><a href="#"></a></li>
+              <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a><a href="#"></a></li>
             </ul>
           </div>
-            <div id="west" data-role="collapsible">
-              <h3>West</h3>
-              <ul data-role="listview">
-                <li><a href="#">Blitman<span class="ui-li-count">2:00pm</span></a></li>
-                <li><a href="#">Union<span class="ui-li-count">3:00pm</span></a></li>
-                <li><a href="#">Polytech<span class="ui-li-count">4:00pm</span></a></li>
-                <li><a href="#">Moe's<span class="ui-li-count">5:00pm</span></a></li>
-              </ul>
-            </div>
-            <div id="east" data-role="collapsible">
-              <h3>East</h3>
-              <ul data-role="listview">
-                
-                <li><a href="#">ECAV<span class="ui-li-count">6:00pm</span></a></li>
-                <li><a href="#">Union<span class="ui-li-count">7:00pm</span></a></li>
-              </ul>
-            </div>
+          
+          <% @routes.each do |route| %>
+          <div id="<%= route.name %>" data-role="collapsible">
+            <h3><%= route.name %></h3>
+            <ul data-role="listview" data-split-icon="star" data-split-theme="d">
+              <% @stops.each do |stop|%>
+
+              <li><a href="#"><%= stop.name %><span class="ui-li-count"><%=stop.etas.minimum(:timestamp).strftime("%l:%M %P") %></span></a><a href="#"></a></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -79,14 +74,16 @@
     <div data-role="page" id="map">
       <div data-role="header"><h1>Map</h1></div>
       <div data-role="content">
-        <div id="map_canvas"></div>
+        <div id="map_header">
+            <span id="loading_icon" style="display: none;"> <%= image_tag 'full_map/loading.gif'%> </span>
+            <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png'%> </span>
+            <span id="status">Loading...</span>
+        </div>
+        <div id="map_canvas">
+          
+        </div>
+        
       </div>
     </div>
   </div>
-  
-  <div id="map_header">
-      <span id="loading_icon" style="display: none;"> <%= image_tag 'full_map/loading.gif'%> </span>
-      <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png'%> </span>
-      <span id="status">Loading...</span>
-</div>
 <% end %>

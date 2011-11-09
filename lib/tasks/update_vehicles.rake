@@ -112,13 +112,14 @@ namespace :update_vehicles do
 
             distance += point_point_distance(route_coords[loc].latitude, route_coords[loc].longitude,
                                             stop.latitude, stop.longitude)
-            eta = distance / vehicle.latest_position.speed
+            eta = distance / (vehicle.latest_position.speed + 1)
             eta = Time.now + eta * 60 * 60
             Eta.new(
                 :stop => stop,
                 :vehicle => vehicle,
                 :timestamp => eta
-            )
+            ).save
+            
             puts "New ETA: " + vehicle.name + " " + stop.name + " " + eta.to_s
           end
         end

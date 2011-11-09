@@ -2,6 +2,9 @@ class DisplaysController < ApplicationController
 
   def index
     @pages = Page.order("name").frontpage
+    @etas = Eta.all
+    @routes = Route.all
+    @stops = Stop.all
     render :layout => 'full_map'
   end
 
