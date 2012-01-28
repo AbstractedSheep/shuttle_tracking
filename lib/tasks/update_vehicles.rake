@@ -37,8 +37,7 @@ namespace :update_vehicles do
             shortest_distance = 1
 
             for route in routes
-              distance = route.distanceTo(update.latitude, update.longitude) * 10000
-              puts vehicle.name + " " + distance.to_s
+              distance = route.distance_to(update.latitude, update.longitude) * 10000
               if distance < shortest_distance
                 closest_route = route
                 shortest_distance = distance
