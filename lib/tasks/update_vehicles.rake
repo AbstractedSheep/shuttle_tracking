@@ -37,7 +37,7 @@ namespace :update_vehicles do
             shortest_distance = 1
 
             for route in routes
-              distance = route.distance_to(update.latitude, update.longitude) * 10000
+              distance = route.distance_to(update.latitude, update.longitude)
               if distance < shortest_distance
                 closest_route = route
                 shortest_distance = distance
@@ -111,7 +111,15 @@ namespace :update_vehicles do
 
             distance += point_point_distance(route_coords[loc].latitude, route_coords[loc].longitude,
                                             stop.latitude, stop.longitude)
-            eta = distance / vehicle.latest_position.speed
+            puts vehicle.name
+            puts 'Distance: ' + distance.to_s
+            puts 'Speed: ' + vehicle.latest_position.speed.to_s
+            if vehicle.latest_position.speed == 0
+              eta = distance
+            else
+              eta = distance / vehicle.latest_position.speed
+            end
+
             eta = Time.now + eta * 60 * 60
             Eta.new(
                 :stop => stop,
