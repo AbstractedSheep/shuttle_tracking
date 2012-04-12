@@ -1,3 +1,9 @@
+.content_div {
+    display: none;
+}
+    .content_div:first-child {
+    display: block;
+}
 #map_header
 {
   position:absolute;

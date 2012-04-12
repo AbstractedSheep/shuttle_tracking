@@ -33,5 +33,5 @@ stylesheets:
      - public/stylesheets/jquery.mobile-1.1.0-rc.2.min.css
 #    - public/stylesheets/jquery.mobile.splitview.css
  #    - public/stylesheets/jquery.mobile.scrollview.css
-     - public/stylesheets/jqm-docs.css
+ #    - public/stylesheets/jqm-docs.css
  #   - public/stylesheets/jquery.mobile.grids.collapsible.css
