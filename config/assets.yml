@@ -6,7 +6,7 @@ embed_assets: on
 
 javascripts:
   common:
-    - public/javascripts/jquery-1.6.4.min.js
+    - public/javascripts/jquery-1.7.1.min.js
 #    - public/javascripts/jquery-1.6.2.js
     - public/javascripts/jquery-ujs/src/rails.js
     - public/javascripts/application.js
@@ -14,22 +14,24 @@ javascripts:
     - public/javascripts/map.js
     - public/javascripts/overlay.js
   mobile:
-    - public/javascripts/jquery.mobile-1.0rc2.min.js
+ #   - public/javascripts/jquery.mobile-1.0.1.min.js
   test:
-    - public/javascripts/jquery.mobile.splitview.js
-    - public/javascripts/jquery.mobile-1.0rc2pre.js
-    - public/javascripts/jquery.easing.1.3.js
-    - public/javascripts/jquery.mobile.scrollview.js
+  #  - public/javascripts/jquery.mobile-1.0.1.min.js
+     - public/javascripts/jquery.mobile-1.1.0-rc.2.min.js
+#     - public/javascripts/jquery.easing.1.3.js
+ #    - public/javascripts/jquery.mobile.scrollview.js
     
 stylesheets:
   map:
     - public/stylesheets/new.css
   mobile:
-    - public/stylesheets/jquery.mobile-1.0rc2.min.css
+ #   - public/stylesheets/jquery.mobile-1.0.1.min.css
   backend:
     - public/stylesheets/general.css
   test:
-    - public/stylesheets/jquery.mobile-1.0rc2pre.css
-    - public/stylesheets/jquery.mobile.splitview.css
-    - public/stylesheets/jquery.mobile.scrollview.css
-    - public/stylesheets/jquery.mobile.grids.collapsible.css
+ #   - public/stylesheets/jquery.mobile-1.0.1.min.css
+     - public/stylesheets/jquery.mobile-1.1.0-rc.2.min.css
+#    - public/stylesheets/jquery.mobile.splitview.css
+ #    - public/stylesheets/jquery.mobile.scrollview.css
+ #    - public/stylesheets/jqm-docs.css
+ #   - public/stylesheets/jquery.mobile.grids.collapsible.css

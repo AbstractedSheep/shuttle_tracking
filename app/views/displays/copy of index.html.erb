@@ -1,0 +1,94 @@
+<% content_for :js_ready do %>
+    //Setup the overlays
+    $("a[rel]").overlay({
+      top: 150,
+      onBeforeLoad: function() {
+        var wrap = this.getOverlay().find(".contentWrap");
+        wrap.load(this.getTrigger().attr("href"));
+      }
+    });
+    //Map work
+    var point = {latitude: <%= MAP_CENTER[:lat] %>, longitude: <%= MAP_CENTER[:long] %>};
+    map = setup_map(point, 15);
+    $.ajaxSetup({
+      timeout: <%= AJAX_TIMEOUT %>
+    });
+    $('#status').ajaxError(function(e, xhr, settings, exception){
+      $(this).text("Unable to load data.");
+      $('#loading_icon').hide();
+      $('#error_icon').show();
+    });
+    $('#status').ajaxStart(function(){
+      $(this).text("Loading...");
+      $('#error_icon').hide();
+      $('#loading_icon').show();
+    });
+    $('#status').ajaxSuccess(function(){
+      $('#loading_icon').hide();
+    });
+    updater = setInterval("update()", <%= UPDATE_INTERVAL %>);
+    routes_and_stops();
+    update(); //Run the first update instead of waiting.
+<% end %>
+<% content_for :js do %>
+  var current_data_path = '<%= current_vehicles_path(:format => 'js') %>';
+  var netlink_data_path = '<%= displays_netlink_path(:format => 'js') %>';
+  var base_icon = '<%= rotate_icon_path(:id => ':id', :heading => ':heading', :format => 'png') %>';
+  var stop_icon_path = '<%= image_path "blue_dot.png" %>';
+<% end %>
+<%#*<div id="shuttle_logo"></div>%>
+<% content_for :large do %>
+
+    <div data-role="page" id="eta" class="type-interior">
+      <div data-role="header"> 
+            <h1>RPI Shuttles</h1>
+            <a href="#" data-role="button" data-icon="refresh" data-iconpos="notext" id="refresh">Refresh</a>
+      </div>
+    
+      
+      <div data-role="content">
+        
+        
+        <div data-role="content-primary">
+          <div id="map_header">
+              <span id="loading_icon" style="display: none;"> <%= image_tag 'full_map/loading.gif'%> </span>
+              <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png'%> </span>
+              <span id="status">Loading...</span>
+          </div>
+          <div id="map_canvas">
+
+          </div>
+        
+        </div>
+        
+        <div class="content-secondary">
+        
+          <div data-role="collapsible-set">
+            <div id="favs" data-role="collapsible" data-collapsed="true">
+              <h3>Favs</h3>
+              <ul data-role="listview" data-split-icon="star" data-split-theme="d">
+
+                <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a><a href="#"></a></li>
+                <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a><a href="#"></a></li>
+              </ul>
+            </div>
+
+            <% @routes.each do |route| %>
+            <div id="<%= route.name %>" data-role="collapsible">
+              <h3><%= route.name %></h3>
+              <ul data-role="listview" data-split-icon="star" data-split-theme="d">
+                <% @stops.each do |stop|%>
+
+                <li><a href="#"><%= stop.name %><span class="ui-li-count"><%=stop.etas.minimum(:timestamp).strftime("%l:%M %P") %></span></a><a href="#"></a></li>
+                <% end %>
+              </ul>
+            </div>
+            <% end %>
+          </div>
+      
+
+        </div>
+      
+     </div>
+   </div>
+<% end %>
