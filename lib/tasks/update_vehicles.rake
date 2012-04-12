@@ -121,11 +121,16 @@ namespace :update_vehicles do
             end
 
             eta = Time.now + eta * 60 * 60
+            oldEta = Eta.find_by_vehicle_id_and_stop_id(vehicle, stop)
+            if !oldEta.nil?
+              oldEta.delete
+            end
             Eta.new(
                 :stop => stop,
                 :vehicle => vehicle,
                 :timestamp => eta
-            )
+              ).save()
+            
             puts "New ETA: " + vehicle.name + " " + stop.name + " " + eta.to_s
           end
         end
