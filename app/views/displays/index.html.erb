@@ -36,32 +36,54 @@
   var base_icon = '<%= rotate_icon_path(:id => ':id', :heading => ':heading', :format => 'png') %>';
   var stop_icon_path = '<%= image_path "blue_dot.png" %>';
 <% end %>
-<div id="shuttle_logo"></div>
-<div id="mapblock">
-  <div id="map_canvas"></div>
-  <div id="nav_container">
-    <%= link_to "http://webtech.union.rpi.edu" do %>
-      <%= image_tag 'little_wtg_logo.png', :alt => "Web Tech Group" %>
-    <% end %>
-    <div id="nav">
-      <% @pages.each do |page| %>
-        <%= link_to page.name, page, :rel => "#overlay" %>
-      <% end %>
-      <%= link_to "KML", displays_netlink_path(:format => 'kml') %>
-      <a href="http://webtech.union.rpi.edu/ticket">Contact</a>
-      <a href="http://github.com/wtg/shuttle_tracking">Source</a>
+<%#*<div id="shuttle_logo"></div>%>
+<% content_for :large do %>
+  <div data-role="panel" data-id="menu">
+    <div data-role="page" id="eta">
+      <div data-role="header"> 
+            <h1>RPI Shuttles</h1>
+            <a href="#" data-role="button" data-icon="refresh" data-iconpos="notext" id="refresh">Refresh</a>
+      </div>
+      <div data-role="content">
+        <div data-role="collapsible-set">
+          <div id="favs" data-role="collapsible">
+            <h3>Favs</h3>
+            <ul data-role="listview" data-split-icon="star" data-split-theme="d">
+              
+              <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a><a href="#"></a></li>
+              <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a><a href="#"></a></li>
+            </ul>
+          </div>
+          
+          <% @routes.each do |route| %>
+          <div id="<%= route.name %>" data-role="collapsible">
+            <h3><%= route.name %></h3>
+            <ul data-role="listview" data-split-icon="star" data-split-theme="d">
+              <% @stops.each do |stop|%>
+
+              <li><a href="#"><%= stop.name %><span class="ui-li-count"><%=stop.etas.minimum(:timestamp).strftime("%l:%M %P") %></span></a><a href="#"></a></li>
+              <% end %>
+            </ul>
+          </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div id="map_header">
-      <span id="loading_icon" style="display: none;"><%= image_tag 'full_map/loading.gif' %></span>
-      <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png' %></span>
-      <span id="status">Loading...</span>
-</div>
-<div id="left"></div>
-<div id="top"></div>
-<div id="right"></div>
-<div id="bottom"></div>
-<div class="simple_overlay" id="overlay">
-  <div class="contentWrap"></div>
-</div>
+  <div data-role="panel" data-id="main">
+    <div data-role="page" id="map">
+      <div data-role="header"><h1>Map</h1></div>
+      <div data-role="content">
+        <div id="map_header">
+            <span id="loading_icon" style="display: none;"> <%= image_tag 'full_map/loading.gif'%> </span>
+            <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png'%> </span>
+            <span id="status">Loading...</span>
+        </div>
+        <div id="map_canvas">
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+<% end %>
