@@ -51,6 +51,44 @@ class DisplaysController < ApplicationController
     end
   end
   
+  # Generate the current state of the ETAs and vehicle positions. 
+  # routes and stops.  The vehicles will be loaded another way.
+  def current
+    @stops = Stop.enabled
+    @vehicles = Vehicle.active
+    respond_to do |format|
+
+      format.js { # Manually build some objects to jsonify
+        data = {:stops => [], :vehicles => []}
+        @stops.each do |s|
+          data[:stops].push(s.serializable_hash(
+              :only => [:short_name, :name],
+              :include => {
+                :etas => {
+                  :only => [:timestamp]
+                }
+              }
+          ))
+        end
+        @vehicles.each do |r|
+          data[:vehicles].push(r.serializable_hash(
+            :only => [:id, :name],
+            :include => {
+              :latest_position => {
+                :only => [:latitude, :longitude, :speed, :heading, :timestamp],
+                :methods => [:public_status_msg, :cardinal_point]
+              },
+              :icon => {
+                :only => [:id]
+              }
+             }
+          ))
+        end
+        render :json => data
+      }
+    end
+  end
+  
   # Redirect you to a page that shows a static image of the current vehicle positions.
   def image
     require 'hash_reduce' # This does the hard thinking!

@@ -1,3 +1,7 @@
+.ui-content {
+    padding: 0px;
+}
+
 .content_div {
     display: none;
 }
@@ -23,6 +27,10 @@
   background-image:url(../images/full_map/biglogo.png);
   z-index:3;
   pointer-events: none;
+ }
+ #eta
+ {
+     padding: 15px;
  }
 /*body
 {

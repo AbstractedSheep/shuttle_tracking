@@ -23,6 +23,7 @@ Tracking::Application.routes.draw do
   resources :stops
     
   match '/displays/static', :to => 'displays#static'
+  match '/displays/current', :to => 'displays#current'
   match '/displays/netlink', :to => 'displays#netlink'
   match '/displays/image', :to => 'displays#image'
     

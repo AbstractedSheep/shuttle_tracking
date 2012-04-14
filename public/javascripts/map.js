@@ -1,5 +1,7 @@
 var map; //The map!
+// Hold the Shuttles and Stops in arrays
 var shuttles = new Object();
+var stops = new Object();
 var updater; // The auto-updater
 
 function stop_updating(){
@@ -8,10 +10,7 @@ function stop_updating(){
 
 function routes_and_stops(){
   $.getJSON(netlink_data_path, function(data){
-    $.each(data.stops, function(i, stop){
-      stop['description'] = stop_description(stop); 
-      var stop_marker = add_point_to_map(stop, map, {icon: stop_icon_path});
-    });
+    
     $.each(data.routes, function(i, route){
       var polyline = new google.maps.Polyline({
         strokeColor: route.color,
@@ -22,6 +21,13 @@ function routes_and_stops(){
       });
       polyline.setMap(map);
     });
+    $.each(data.stops, function(i, stop){
+      stop['description'] = stop_description(stop); 
+      var stop_marker_info = add_point_to_map(stop, map, {icon: stop_icon_path}, true);
+      var stop_marker = stop_marker_info[0];
+      stop_marker.info_window = stop_marker_info[1];
+      stops[stop.short_name] = stop_marker;
+    });
   });
   $('#status').text("Static data OK.");
   return true;
@@ -31,8 +37,7 @@ function update(){
   $.getJSON(current_data_path, function(data){
     var now = new Date();
     // Pass through every update and move / create the appropriate marker
-    $.each(data, function(i, obj){
-      var vehicle = obj.vehicle;
+    $.each(data.vehicles, function(i, vehicle){
 
       // Remap some of the attributes so they aren't so deep.
       vehicle['latitude'] = vehicle.latest_position.latitude;
@@ -63,6 +68,14 @@ function update(){
 
       marker.updated_at = now;
       shuttles[vehicle.id] = marker;
+    });
+    
+    // Update the stops with their new ETA
+    $.each(data.stops, function(i, stop) {
+        
+        var stop_marker = stops[stop.short_name];
+        stop_marker.info_window.setContent(stop_description(stop) + "<br>" + stop.etas[0].timestamp);
+        
     });
     // Pass through every shuttle and delete it if it was not updated.
     $.each(shuttles, function(id, marker){
