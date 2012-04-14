@@ -1,7 +1,6 @@
 <% content_for :js_ready do %>
   
-  var mapHeight = $(window).height() - $('.ui-header').height();
-  $('#map_canvas').css('height', mapHeight);
+  
 
   //Setup the overlays
   $("a[rel]").overlay({
@@ -47,11 +46,18 @@
 
   function adjustLayoutToWindow()
   {
+  
+  
   if ($(window).width() < transitionWidth && viewMode != 0) {
   setLayout(0);
   } else if ($(window).width() >= transitionWidth && viewMode != 1) {
   setLayout(1);
   }
+  
+  var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
+  var mapWidth = $(window).width() - columnWidth-30;
+  $('#map_canvas').css('height', mapHeight);
+  $('#map_canvas').css('width', mapWidth);
   }
 
   // Mode 0 is tabbed mode, Mode 1 is two-column mode
@@ -82,7 +88,16 @@
   $(this).addClass('ui-btn-active');
   $('.content_div').hide();
   $('#' + $(this).attr('data-href')).show();
+  var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
+  var mapWidth = $(window).width() - columnWidth-30;
+  $('#map_canvas').css('height', mapHeight);
+  $('#map_canvas').css('width', mapWidth);
   });
+  
+  var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
+  var mapWidth = $(window).width() - columnWidth-30;
+  $('#map_canvas').css('height', mapHeight);
+  $('#map_canvas').css('width', mapWidth);
 
 <% end %>
 <% content_for :js do %>
