@@ -1,0 +1,20 @@
+<% content_for :js do %>
+    $(function() {
+    // Also works with: var yourStartLatLng = '59.3426606750, 18.0736160278';
+    var yourStartLatLng = new google.maps.LatLng(59.3426606750, 18.0736160278);
+    $('#map_canvas').gmap({'center': yourStartLatLng});
+    });
+
+    $('#page_id').live("pageshow", function() {
+    $('#map_canvas').gmap('refresh');
+    });
+    $('#page_id').live("pageinit", function() {
+    $('#map_canvas').gmap({'center': '59.3426606750, 18.0736160278'});
+    });
+
+<% end %>
+<%#*<div id="shuttle_logo"></div>%>
+<% content_for :large do %>
+
+
+<% end %>

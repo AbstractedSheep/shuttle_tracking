@@ -13,6 +13,7 @@ javascripts:
   map:
     - public/javascripts/map.js
     - public/javascripts/overlay.js
+    - public/javascripts/maps/min/jquery.ui.map.full.min.js
   mobile:
  #   - public/javascripts/jquery.mobile-1.0.1.min.js
   test:

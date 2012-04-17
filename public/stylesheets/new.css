@@ -1,13 +1,13 @@
 .ui-content {
     padding: 0px;
+    height: 100%;
+    width: 100%;
 }
 
-.content_div {
-    display: none;
+body.ui-mobile-viewport, div.ui-mobile-viewport {
+    overflow: hidden;
 }
-    .content_div:first-child {
-    display: block;
-}
+
 #map_header
 {
   position:absolute;
@@ -31,6 +31,7 @@
  #eta
  {
      padding: 15px;
+     overflow-y: auto;
  }
 /*body
 {
@@ -65,10 +66,7 @@
 
 #map_canvas
 {
-  position:absolute;
-  width: 100%;
-  height: 100%;
-  
+  overflow: hidden;
 }
 #nav_container
 {

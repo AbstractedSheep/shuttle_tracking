@@ -1,171 +1,102 @@
-<% content_for :js_ready do %>
-  
-  
-
-  //Setup the overlays
-  $("a[rel]").overlay({
-  top: 150,
-  onBeforeLoad: function() {
-  var wrap = this.getOverlay().find(".contentWrap");
-  wrap.load(this.getTrigger().attr("href"));
-  }
-  });
-  //Map work
-  var point = {latitude: <%= MAP_CENTER[:lat] %>, longitude: <%= MAP_CENTER[:long] %>};
-  map = setup_map(point, 15);
-  $.ajaxSetup({
-  timeout: <%= AJAX_TIMEOUT %>
-  });
-  $('#status').ajaxError(function(e, xhr, settings, exception){
-  $(this).text("Unable to load data.");
-  $('#loading_icon').hide();
-  $('#error_icon').show();
-  });
-  $('#status').ajaxStart(function(){
-  $(this).text("Loading...");
-  $('#error_icon').hide();
-  $('#loading_icon').show();
-  });
-  $('#status').ajaxSuccess(function(){
-  $('#loading_icon').hide();
-  });
-  updater = setInterval("update()", <%= UPDATE_INTERVAL %>);
-  routes_and_stops();
-  update(); //Run the first update instead of waiting.
-  
-  var transitionWidth = 600;
-  var columnWidth = 300;
-  var viewMode = 0;
-
-  // CSS styles default to tabbed mode
-  // Check on startup to determine if this needs to change
-  adjustLayoutToWindow()
-
-  // Recheck whenever the window is resized
-  $(window).resize(adjustLayoutToWindow);
-
-  function adjustLayoutToWindow()
-  {
-  
-  
-  if ($(window).width() < transitionWidth && viewMode != 0) {
-  setLayout(0);
-  } else if ($(window).width() >= transitionWidth && viewMode != 1) {
-  setLayout(1);
-  }
-  
-  var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
-  var mapWidth = $(window).width() - columnWidth-30;
-  $('#map_canvas').css('height', mapHeight);
-  $('#map_canvas').css('width', mapWidth);
-  }
-
-  // Mode 0 is tabbed mode, Mode 1 is two-column mode
-  function setLayout(mode) {
-  viewMode = mode;
-  if (mode == 0) {
-  $('#map').show();
-  $('#eta').hide();
-  $('#nav_bar').show();
-  $('#map_tab').addClass('ui-btn-active');
-  $('#eta_tab').removeClass('ui-btn-active');
-  $('#map').css('float', 'left');
-  $('#map').css('margin-left', '0px');
-  $('#eta').css('float', 'left');
-  $('#eta').css('width', '100%');
-  } else if (mode == 1) {
-  $('.content_div').show();			
-  $('#nav_bar').hide();
-  $('#map').css('float', 'none');
-  $('#map').css('margin-left', (columnWidth + 30) + 'px');
-  $('#eta').css('float', 'left');
-  $('#eta').css('width', columnWidth + 'px');
-  }
-  }
-
-  // Handle clicks on the tab buttons
-  $(document).delegate('[data-role="navbar"] a', 'click', function () {
-  $(this).addClass('ui-btn-active');
-  $('.content_div').hide();
-  $('#' + $(this).attr('data-href')).show();
-  var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
-  var mapWidth = $(window).width() - columnWidth-30;
-  $('#map_canvas').css('height', mapHeight);
-  $('#map_canvas').css('width', mapWidth);
-  });
-  
-  var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
-  var mapWidth = $(window).width() - columnWidth-30;
-  $('#map_canvas').css('height', mapHeight);
-  $('#map_canvas').css('width', mapWidth);
-
-<% end %>
 <% content_for :js do %>
-  var current_data_path = '<%= displays_current_path(:format => 'js') %>';
-  var netlink_data_path = '<%= displays_netlink_path(:format => 'js') %>';
-  var base_icon = '<%= rotate_icon_path(:id => ':id', :heading => ':heading', :format => 'png') %>';
-  var stop_icon_path = '<%= image_path "blue_dot.png" %>';
+    function resizeMap() {
+        var mapHeight = $(window).height() - $('.ui-page-active').find('.ui-bar-a').height()-2;
+        var mapWidth = $(window).width();
+        $('#map_canvas').css('height', mapHeight);
+        $('#map_canvas').css('width', mapWidth);
+    }
+
+    $(window).resize(resizeMap);
+
+    $('#map_page').live("pageshow", function() {
+        $('#map_canvas').gmap('refresh');
+        resizeMap();
+    });
+    $('#map_page').live("pageinit", function() {
+        $('#map_canvas').gmap({'center': '59.3426606750, 18.0736160278'});
+    });
+
+    var current_data_path = '<%= displays_current_path(:format => 'js') %>';
+    var netlink_data_path = '<%= displays_netlink_path(:format => 'js') %>';
+    var base_icon = '<%= rotate_icon_path(:id => ':id', :heading => ':heading', :format => 'png') %>';
+    var stop_icon_path = '<%= image_path "blue_dot.png" %>';
 <% end %>
+
 <%#*<div id="shuttle_logo"></div>%>
 <% content_for :large do %>
 
-  <div data-role="page">
-    <div data-role="header"> 
-      <h1>RPI Shuttles</h1>
-      <div data-role="navbar" data-iconpos="none" id="nav_bar">
-        <ul>
-          <li>
-            <a href="#" class="nav_button" id="map_tab" data-href="map" data-theme="" data-icon="" class="ui-btn-active">
-              Map
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav_button" id="eta_tab" data-href="eta" data-theme="" data-icon="">
-              ETA
-            </a>
-          </li>
-        </ul>
+    <div data-role="page" id="eta_page">
+      <div data-role="header" data-position="fixed">
+        <h1>RPI Shuttles</h1>
+        <div data-role="navbar" data-iconpos="none">
+          <ul>
+            <li>
+              <a href="" data-theme="" data-icon="" class="ui-btn-active ui-state-persist">
+                ETA
+              </a>
+            </li>
+            <li>
+              <a href="#map_page" data-theme="" data-icon="">
+                Map
+              </a>
+            </li>
+          </ul>
+        </div>
+        <a href="#" data-role="button" data-icon="refresh" data-iconpos="notext" id="refresh">Refresh</a>
       </div>
-      <a href="#" data-role="button" data-icon="refresh" data-iconpos="notext" id="refresh">Refresh</a>
-    </div>
 
 
-    <div data-role="content" >
-      <div id="eta" class="content_div">
-        <div data-role="collapsible-set">
-          <div id="favs" data-role="collapsible" data-collapsed="true">
-            <h3>Favs</h3>
-            <ul data-role="listview" data-split-icon="star" data-split-theme="d">
-
-              <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a><a href="#"></a></li>
-              <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a><a href="#"></a></li>
-            </ul>
-          </div>
-
-          <% @routes.each do |route| %>
-            <div id="<%= route.name %>" data-role="collapsible">
-              <h3><%= route.name %></h3>
+      <div data-role="content" >
+        <div id="eta" class="content_div">
+          <div data-role="collapsible-set">
+            <div id="favs" data-role="collapsible" data-collapsed="true">
+              <h3>Favs</h3>
               <ul data-role="listview" data-split-icon="star" data-split-theme="d">
-                <% @stops.each do |stop|%>
 
-                  <li><a href="#"><%= stop.name %><span class="ui-li-count"><%=stop.etas.minimum(:timestamp).strftime("%l:%M %P") %></span></a><a href="#"></a></li>
-                <% end %>
+                <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a><a href="#"></a></li>
+                <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a><a href="#"></a></li>
               </ul>
             </div>
-          <% end %>
+          </div>
         </div>
-      </div>
-      <div id="map" class="content_div">
-        <div id="map_header">
-          <span id="loading_icon" style="display: none;"> <%= image_tag 'full_map/loading.gif'%> </span>
-          <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png'%> </span>
-          <span id="status">Loading...</span>
-        </div>
-        <div id="map_canvas">
 
-        </div>			
       </div>
-
     </div>
-  </div>
+
+    <div data-role="page" id="map_page" style="overflow: hidden;">
+      <div data-role="header" data-position="fixed">
+        <h1>RPI Shuttles</h1>
+        <div data-role="navbar" data-iconpos="none">
+          <ul>
+            <li>
+              <a href="#eta_page"  data-theme="" data-icon="">
+                ETA
+              </a>
+            </li>
+            <li>
+              <a href="" data-theme="" data-icon="" class="ui-btn-active ui-state-persist">
+                Map
+              </a>
+            </li>
+          </ul>
+        </div>
+        <a href="#" data-role="button" data-icon="refresh" data-iconpos="notext" >Refresh</a>
+      </div>
+
+
+      <div data-role="content" style="overflow: hidden;">
+
+        <div id="map" class="content_div" style="overflow: hidden;">
+          <div id="map_header">
+            <span id="loading_icon" style="display: none;"> <%= image_tag 'full_map/loading.gif'%> </span>
+            <span id="error_icon" style="display: none;"><%= image_tag 'full_map/error.png'%> </span>
+            <span id="status">Loading...</span>
+          </div>
+          <div id="map_canvas" style="overflow: hidden;">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
 <% end %>

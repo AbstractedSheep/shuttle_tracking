@@ -8,6 +8,10 @@ class DisplaysController < ApplicationController
     render :layout => 'full_map'
   end
 
+  def map
+    render :layout => 'full_map'
+  end
+
   # Generate a static KML file, a snapshot of the system.
   # Works well for devices that don't understand network links.
   def static

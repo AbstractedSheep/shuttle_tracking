@@ -29,6 +29,8 @@ Tracking::Application.routes.draw do
     
   #match 'shuttle_tracking.kml', :to => 'displays#kml'
 
+  match 'map', :to => 'displays#map'
+
   root :to => "displays#index"
 
   # See how all your routes lay out with "rake routes"
