@@ -15,7 +15,6 @@ Note: This project uses git submodules.  Run `git submodule update --init` to do
 
 ## Configuration
 
-(note: all URLs are rails defaults)
 * Point to your Central Authentication Server in `config/initializers/devise.rb`
 * Setup your shuttle position updates.  An example is provided in `lib/tasks/sample.rake`
 * Setup an administrative user.
