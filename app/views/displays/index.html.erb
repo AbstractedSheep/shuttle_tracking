@@ -55,7 +55,12 @@
   }
   
   var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
-  var mapWidth = $(window).width() - columnWidth-30;
+  if (viewMode == 1) {
+    var mapWidth = $(window).width() - columnWidth-30;
+  }
+  else {
+    var mapWidth = $(window).width();
+  }
   $('#map_canvas').css('height', mapHeight);
   $('#map_canvas').css('width', mapWidth);
   }
@@ -87,11 +92,23 @@
   $(document).delegate('[data-role="navbar"] a', 'click', function () {
   $(this).addClass('ui-btn-active');
   $('.content_div').hide();
+  
   $('#' + $(this).attr('data-href')).show();
+  
   var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
-  var mapWidth = $(window).width() - columnWidth-30;
+  if (viewMode == 1) {
+    var mapWidth = $(window).width() - columnWidth-30;
+  }
+  else {
+    var mapWidth = $(window).width();
+  }
   $('#map_canvas').css('height', mapHeight);
   $('#map_canvas').css('width', mapWidth);
+  
+  
+  google.maps.event.trigger(map, "resize");
+
+  
   });
   
   var mapHeight = $(window).height() - $('.ui-bar-a').height()-2;
