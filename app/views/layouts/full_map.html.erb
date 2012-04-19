@@ -22,6 +22,9 @@
       <%= yield(:js) %>
     </script>
   <% end %>
+  <% if content_for?(:js_ide) %>
+    <%= yield(:js_ide) %>
+  <% end %>
 </head>
 <body>
   <% if flash[:notice] %><p style="color: green"><%= flash[:notice] %></p><% end %>

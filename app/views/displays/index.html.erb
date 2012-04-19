@@ -1,7 +1,45 @@
-<% content_for :js do %>
+<% content_for :js_ide do %>
+<script>
+    var mode = 0; // 0 = tabbed, 1 = full
+    var columnWidth = 300;
+    var paddingOffset = 30;
+
+    $(document).ready(function() {
+        // The views default to tabbed mode. If the browser is on a large enough screen to support column mode,
+        // configure the display accordingly
+        if (screen.availWidth > 600 && screen.availHeight > 600)
+        {
+            mode = 1;
+            $('#eta_content').append($('#map_content'));
+            $('#map_content').removeClass();
+            $('#map_page').remove();
+            $('.ui-navbar').remove();
+            $('#map_content').css('float', 'none');
+            $('#map_content').css('margin-left', (columnWidth + 30) + 'px');
+            $('#eta').css('float', 'left');
+            $('#eta').css('width', columnWidth + 'px');
+
+            // Finish adjusting the layout after the rest of the DOM is modified
+            setTimeout(function() {
+                $('#eta_page').css('padding-top', $('#normal_view_header').height());
+                $('#map_canvas').gmap('refresh');
+                resizeMap();
+            }, 0);
+
+
+        }
+    });
+
     function resizeMap() {
-        var mapHeight = $(window).height() - $('.ui-page-active').find('.ui-bar-a').height()-2;
-        var mapWidth = $(window).width();
+        var mapHeight;
+        var mapWidth;
+        if (mode == 0) {
+            mapHeight = $(window).height() - $('.ui-page-active').find('.ui-bar-a').height()-2;
+            mapWidth = $(window).width();
+        } else {
+            mapHeight = $(window).height() - $('#normal_view_header').height()-2;
+            mapWidth = $(window).width() - columnWidth - paddingOffset;
+        }
         $('#map_canvas').css('height', mapHeight);
         $('#map_canvas').css('width', mapWidth);
     }
@@ -13,22 +51,22 @@
         resizeMap();
     });
     $('#map_page').live("pageinit", function() {
-        $('#map_canvas').gmap({'center': '59.3426606750, 18.0736160278'});
+        $('#map_canvas').gmap({'center': '<%= MAP_CENTER[:lat] %>, <%= MAP_CENTER[:long] %>'});
     });
 
     var current_data_path = '<%= displays_current_path(:format => 'js') %>';
     var netlink_data_path = '<%= displays_netlink_path(:format => 'js') %>';
     var base_icon = '<%= rotate_icon_path(:id => ':id', :heading => ':heading', :format => 'png') %>';
     var stop_icon_path = '<%= image_path "blue_dot.png" %>';
+</script>
 <% end %>
-
 <%#*<div id="shuttle_logo"></div>%>
 <% content_for :large do %>
 
     <div data-role="page" id="eta_page">
-      <div data-role="header" data-position="fixed">
+      <div data-role="header" data-position="fixed" id="normal_view_header">
         <h1>RPI Shuttles</h1>
-        <div data-role="navbar" data-iconpos="none">
+        <div data-role="navbar" data-iconpos="none" >
           <ul>
             <li>
               <a href="" data-theme="" data-icon="" class="ui-btn-active ui-state-persist">
@@ -46,7 +84,7 @@
       </div>
 
 
-      <div data-role="content" >
+      <div data-role="content" id="eta_content">
         <div id="eta" class="content_div">
           <div data-role="collapsible-set">
             <div id="favs" data-role="collapsible" data-collapsed="true">
@@ -84,7 +122,7 @@
       </div>
 
 
-      <div data-role="content" style="overflow: hidden;">
+      <div data-role="content" style="overflow: hidden;" id="map_content">
 
         <div id="map" class="content_div" style="overflow: hidden;">
           <div id="map_header">
