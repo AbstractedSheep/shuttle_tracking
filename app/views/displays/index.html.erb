@@ -1,5 +1,6 @@
 <% content_for :js_ide do %>
 <script>
+    var map;
     var mode = 0; // 0 = tabbed, 1 = full
     var columnWidth = 300;
     var paddingOffset = 30;
@@ -22,11 +23,42 @@
             // Finish adjusting the layout after the rest of the DOM is modified
             setTimeout(function() {
                 $('#eta_page').css('padding-top', $('#normal_view_header').height());
-                $('#map_canvas').gmap('refresh');
+                var latLng = map.getCenter();
+                $('#map_canvas').resize();
+                map.setCenter(latLng);
                 resizeMap();
             }, 0);
 
-
+            //Setup the overlays
+            $("a[rel]").overlay({
+                                    top: 150,
+                                    onBeforeLoad: function() {
+                                        var wrap = this.getOverlay().find(".contentWrap");
+                                        wrap.load(this.getTrigger().attr("href"));
+                                    }
+                                });
+            //Map work
+            var point = {latitude: <%= MAP_CENTER[:lat] %>, longitude: <%= MAP_CENTER[:long] %>};
+            map = setup_map(point, 15);
+            $.ajaxSetup({
+                            timeout: <%= AJAX_TIMEOUT %>
+                        });
+            $('#status').ajaxError(function(e, xhr, settings, exception){
+                $(this).text("Unable to load data.");
+                $('#loading_icon').hide();
+                $('#error_icon').show();
+            });
+            $('#status').ajaxStart(function(){
+                $(this).text("Loading...");
+                $('#error_icon').hide();
+                $('#loading_icon').show();
+            });
+            $('#status').ajaxSuccess(function(){
+                $('#loading_icon').hide();
+            });
+            updater = setInterval("update()", <%= UPDATE_INTERVAL %>);
+            routes_and_stops();
+            update(); //Run the first update instead of waiting.
         }
     });
 
@@ -47,11 +79,13 @@
     $(window).resize(resizeMap);
 
     $('#map_page').live("pageshow", function() {
-        $('#map_canvas').gmap('refresh');
+        var latLng = map.getCenter();
+        $('#map_canvas').resize();
+        map.setCenter(latLng);
         resizeMap();
     });
     $('#map_page').live("pageinit", function() {
-        $('#map_canvas').gmap({'center': '<%= MAP_CENTER[:lat] %>, <%= MAP_CENTER[:long] %>'});
+        map.setCenter(google.maps.LatLng(<%= MAP_CENTER[:lat] %>, <%= MAP_CENTER[:long] %>));
     });
 
     var current_data_path = '<%= displays_current_path(:format => 'js') %>';
