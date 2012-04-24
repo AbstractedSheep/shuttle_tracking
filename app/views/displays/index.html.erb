@@ -21,15 +21,8 @@
             $('#map_content').css('margin-left', (columnWidth + 30) + 'px');
             $('#eta').css('float', 'left');
             $('#eta').css('width', columnWidth + 'px');
-
-            // Finish adjusting the layout after the rest of the DOM is modified
-            setTimeout(function() {
-                $('#eta_page').css('padding-top', $('#normal_view_header').height());
-                var latLng = map.getCenter();
-                $('#map_canvas').resize();
-                map.setCenter(latLng);
-                resizeMap();
-            }, 0);
+        }
+            
 
             //Setup the overlays
             $("a[rel]").overlay({
@@ -61,7 +54,15 @@
             updater = setInterval("update()", <%= UPDATE_INTERVAL %>);
             routes_and_stops();
             update(); //Run the first update instead of waiting.
-        }
+            
+            // Finish adjusting the layout after the rest of the DOM is modified
+            setTimeout(function() {
+                $('#eta_page').css('padding-top', $('#normal_view_header').height());
+                var latLng = map.getCenter();
+                $('#map_canvas').resize();
+                map.setCenter(latLng);
+                resizeMap();
+            }, 0);
     });
 
     function resizeMap() {
@@ -76,6 +77,10 @@
         }
         $('#map_canvas').css('height', mapHeight);
         $('#map_canvas').css('width', mapWidth);
+        $('#map').css('height', mapHeight);
+        $('#map').css('width', mapWidth);
+        $('#map_content').css('height', mapHeight);
+        $('#map_content').css('width', mapWidth);
     }
 
     $(window).resize(resizeMap);
@@ -123,14 +128,17 @@
       <div data-role="content" id="eta_content">
         <div id="eta" class="content_div">
           <div data-role="collapsible-set">
-            <div id="favs" data-role="collapsible" data-collapsed="true">
-              <h3>Favs</h3>
-              <ul data-role="listview" data-split-icon="star" data-split-theme="d">
+            <% @routes.each do |route| %>
+            <div id="<%= route.name %>" data-role="collapsible">
+              <h3><%= route.name %></h3>
+              <ul data-role="listview">
+                <% @stops.each do |stop|%>
 
-                <li><a href="#">Blitman<span class="ui-li-count">West 12:00pm</span></a><a href="#"></a></li>
-                <li><a href="#">Union<span class="ui-li-count">East 1:00pm</span></a><a href="#"></a></li>
+                  <li><a href="#"><%= stop.name %><span class="ui-li-count"><%=stop.etas.minimum(:timestamp).strftime("%l:%M %P") %></span></a></li>
+                <% end %>
               </ul>
             </div>
+          <% end %>
           </div>
         </div>
 
